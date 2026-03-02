@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{
+    background:linear-gradient(135deg,#e6f2ff,#f8fbff);
+    height:100vh;
+    overflow-x:hidden;
+    overflow-y:visible;
+    position:relative;
+}
+body::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    opacity:0.12;
+    pointer-events:none;
+}
+
+/* stars background */
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:0.4;
+    animation:twinkle 3s infinite alternate;
+}
+@keyframes twinkle{from{opacity:0.2;}to{opacity:0.7;}}
+
+/* container & slides */
+.container{
+    display:flex;
+    height:100vh;
+    transition:1s ease;
+    position:relative;
+}
+.slide{
+    min-width:100vw;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding:20px;
+    position:relative;
+}
+
+/* envelope */
+.envelope{
+    width:260px;
+    height:160px;
+    position:relative;
+    cursor:pointer;
+    perspective:1000px;
+    margin-bottom:20px;
+}
+.env-body{
+    width:100%;
+    height:100%;
+    background:#d9ecff;
+    border-radius:10px;
+    position:absolute;
+    bottom:0;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+.env-flap{
+    width:100%;
+    height:100%;
+    background:#c3ddff;
+    position:absolute;
+    top:0;
+    clip-path:polygon(0 0,100% 0,50% 65%);
+    transform-origin:top;
+    transition:0.8s;
+}
+.envelope.open .env-flap{transform:rotateX(180deg);}
+.letter{
+    position:absolute;
+    width:90%;
+    height:75%;
+    background:white;
+    top:15%;
+    left:5%;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:15px;
+    font-size:14px;
+    color:#4a6b8a;
+    transform:translateY(20px);
+    opacity:0;
+    transition:0.6s;
+}
+.envelope.open .letter{
+    transform:translateY(0); opacity:1;
+}
+.envelope-title{
+    margin-bottom:20px;
+    font-size:16px;
+    color:#4a6b8a;
+    letter-spacing:1px;
+}
+
+/* postcard */
+.postcard{
+    background:white;
+    max-width:420px;
+    width:100%;
+    padding:30px;
+    border-radius:20px;
+    border:12px solid transparent;
+    border-image: repeating-linear-gradient(
+        45deg,
+        #e3f0ff 0 15px,
+        #ffffff 15px 30px
+    ) 20;
+    box-shadow:0 15px 40px rgba(0,0,0,0.1);
+    text-align:center;
+}
+h1{
+    font-family:'Playfair Display',serif;
+    color:#2d4f73;
+    margin-bottom:15px;
+}
+.message{
+    font-size:14px;
+    color:#4a6b8a;
+    line-height:1.8;
+}
+
+/* typing effect */
+#typing-text{min-height:50px;}
+
+/* vinyl */
+.vinyl{
+    width:200px;
+    height:200px;
+    background:black;
+    border-radius:50%;
+    position:relative;
+    margin:20px auto;
+    animation:spin 4s linear infinite;
+}
+.vinyl img{
+    position:absolute;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    object-fit:cover;
+}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* photo shadow slide 4 */
+.photo-simple{
+    width:180px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    margin-bottom:15px;
+}
+
+/* cake & candle */
+.cake{
+    width:140px;
+    height:90px;
+    background:#bcdcff;
+    border-radius:12px 12px 25px 25px;
+    margin:40px auto 20px auto;
+    position:relative;
+}
+.candle{
+    width:14px;
+    height:55px;
+    background:#fff4d6;
+    position:absolute;
+    top:-28px;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:4px;
+}
+.flame{
+    width:16px;
+    height:16px;
+    background:orange;
+    border-radius:50%;
+    position:absolute;
+    top:-16px;
+    left:50%;
+    transform:translateX(-50%);
+    animation:flicker .3s infinite alternate;
+    cursor:pointer;
+}
+@keyframes flicker{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.15)}}
+
+/* confetti */
+.confetti{
+    position:fixed;
+    width:10px;
+    height:14px;
+    opacity:0.9;
+    z-index:99999;
+    top:0; /* pastikan dari atas */
+    animation:confettiFall 3s linear forwards;
+}
+@keyframes confettiFall{
+    0%{transform:translateY(-50px) rotate(0deg); opacity:1;}
+    100%{transform:translateY(110vh) rotate(720deg); opacity:0;}
+}
+
+/* star memory */
+.stars-container{display:flex; justify-content:center; gap:25px; margin:25px 0;}
+.memory-star{font-size:42px; cursor:pointer; color:#bcdcff; transition:0.3s;}
+.memory-star:hover{transform:scale(1.2);}
+.memory-text{font-size:14px; color:#4a6b8a; min-height:30px;}
+
+/* final letter */
+.final-letter{font-size:15px; color:#4a6b8a; line-height:1.8; animation:fadeInLetter 2s ease forwards; opacity:0;}
+@keyframes fadeInLetter{to{opacity:1;}}
+
+/* buttons inside slide */
+button{
+    padding:10px 22px;
+    border:none;
+    border-radius:25px;
+    background:#bcdcff;
+    color:#2d4f73;
+    cursor:pointer;
+    margin-top:15px;
+}
+button:hover{background:#9dcfff;}
+.slide button.next-btn{
+    position:relative; /* ikut flow slide */
+    margin-top:20px;
+}
+
+/* stack tombol vertikal di slide 3 */
+.button-group {
+    display: flex;
+    flex-direction: column; /* vertikal */
+    align-items: center;    /* center horizontally */
+    gap: 12px;              /* jarak antar tombol */
+    margin-top: 20px;       /* jarak dari vinyl */
+}
+
+/* responsive adjustment */
+@media(max-width:480px){
+    .postcard{padding:20px;}
+    .envelope{width:200px;height:130px;}
+    .cake{width:120px;height:80px;}
+    .vinyl{width:150px;height:150px;}
+    .vinyl img{width:70px;height:70px;}
+    button{padding:8px 18px;font-size:14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+
+<!-- SLIDE 1: Envelope -->
+<div class="slide">
+    <div style="text-align:center;">
+        <div class="envelope-title">click the envelope</div>
+        <div class="envelope" onclick="openEnvelope(this)">
+            <div class="env-body"></div>
+            <div class="env-flap"></div>
+            <div class="letter">i made something small… but it carries something real.</div>
+        </div>
+        <!-- tombol Next dihapus -->
+    </div>
+</div>
+
+<!-- SLIDE 2: Happy Birthday -->
+<div class="slide">
+    <div class="postcard">
+        <h1>Happy Birthday, Neroo!</h1>
+        <div class="message" id="typing-text"></div>
+        <button class="next-btn" onclick="next()">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 3: Vinyl song -->
+<div class="slide">
+    <div class="postcard">
+        <h1>A Song That Reminds Me of You</h1>
+        <div class="vinyl">
+            <img src="cover.jpg">
+        </div>
+        <div class="button-group">
+    <button onclick="toggleMusic()">Play / Pause</button>
+    <button class="next-btn" onclick="next()">Next</button>
+</div>
+        <audio id="music" loop>
+            <source src="song.mp3" type="audio/mp3">
+        </audio>
+    </div>
+</div>
+
+<!-- SLIDE 4: Sweet Messages -->
+<div class="slide">
+    <div class="postcard">
+        <h1>Sweet Messages</h1>
+        <img src="foto.jpg" class="photo-simple">
+        <div class="message">
+            Keep going, even when it feels heavy. don’t give up on your dreams they are worth chasing, and so are you. i hope you learn to value yourself more, to treat yourself with the same kindness you give to others. put yourself first sometimes. you are truly important and deeply valuable.
+        </div>
+        <button class="next-btn" onclick="next()">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 5: Make a Wish -->
+<div class="slide">
+    <div class="postcard">
+        <h1>Make a Wish!</h1>
+        <div class="cake">
+            <div class="candle">
+                <div class="flame" onclick="blowCandle(this)"></div>
+            </div>
+        </div>
+        <div class="message">
+            Close your eyes for a second… make a quiet wish, then tap the flame.
+        </div>
+        <button class="next-btn" onclick="next()">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 6: Star Memory -->
+<div class="slide">
+    <div class="postcard">
+        <h1>Things I Appreciate About You</h1>
+        <div class="stars-container">
+            <div class="memory-star" onclick="revealMemory(this,'You keep trying, even when things aren’t easy')">★</div>
+            <div class="memory-star" onclick="revealMemory(this,'Your smile on random days')">★</div>
+            <div class="memory-star" onclick="revealMemory(this,'You don’t give up easily')">★</div>
+        </div>
+        <div class="memory-text" id="memoryText"></div>
+        <button class="next-btn" onclick="next()">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 7: Final Letter -->
+<div class="slide">
+    <div class="postcard">
+        <h1>Once Again, Happy Birthday!</h1>
+        <div class="final-letter">
+            I’m really glad you were born.<br><br>
+            I hope this year feels softer, kinder, and a little brighter for you.<br><br>
+            You deserve good things, always.
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+let current=0;
+const totalSlides=document.querySelectorAll(".slide").length;
+const text="II hope this year meets you gently. May Allah bless you with a long life, good health, and steady strength. May the things you’ve been holding in silence slowly find their way to you.";
+let index=0;
+
+function next(){
+    if(current < totalSlides-1){
+        current++;
+        document.getElementById("container").style.transform="translateX(-"+current*100+"vw)";
+        if(current === 1 && index===0){typeEffect();}
+    }
+}
+
+function toggleMusic(){
+    const m=document.getElementById("music");
+    m.paused ? m.play() : m.pause();
+}
+
+function openEnvelope(el){
+    el.classList.add("open");
+
+    // tambahkan tombol Next hanya untuk slide 1
+    const slide1 = el.parentElement; // div slide 1
+    let nextBtn = document.createElement("button");
+    nextBtn.className = "next-btn";
+    nextBtn.innerText = "Next";
+    nextBtn.onclick = next;
+    slide1.appendChild(nextBtn);
+}
+
+function typeEffect(){
+    if(index<text.length){
+        document.getElementById("typing-text").innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeEffect,35);
+    }
+}
+
+function blowCandle(el){
+    el.style.display="none";
+    launchConfetti();
+}
+
+function launchConfetti(){
+    for(let i=0;i<50;i++){
+        let c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=['#ffcc00','#ff6666','#66ff66','#66ccff','#cc66ff'][Math.floor(Math.random()*5)];
+        c.style.animationDuration=(2+Math.random()*2)+"s";
+        document.body.appendChild(c);
+        setTimeout(()=>{c.remove();},4000);
+    }
+}
+
+function revealMemory(star,text){
+    document.getElementById("memoryText").innerText=text;
+    star.style.color="#2d4f73";
+}
+
+/* stars bg */
+for(let i=0;i<70;i++){
+    let s=document.createElement("div");
+    s.className="star";
+    s.style.top=Math.random()*100+"vh";
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDuration=(2+Math.random()*3)+"s";
+    document.body.appendChild(s);
+}
+</script>
+</body>
+</html>
